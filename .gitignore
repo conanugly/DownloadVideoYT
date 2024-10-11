@@ -11,7 +11,7 @@ obj/
 
 # VS Code folder
 .vscode/
-
+.vs/
 # Log files
 *.log
 
