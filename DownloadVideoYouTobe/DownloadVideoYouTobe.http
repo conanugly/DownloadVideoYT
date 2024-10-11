@@ -1,0 +1,13 @@
+@DownloadVideoYouTobe_HostAddress = http://localhost:5262
+
+GET {{DownloadVideoYouTobe_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+POST {{DownloadVideoYouTobe_HostAddress}}/api/DownloadVideo/
+Accept: application/json
+Content-Type: application/json
+{
+  "LinkYT":"https://www.youtube.com/watch?v=HYtoyo9CFEA&list=PLRhlTlpDUWsz4IwOpkEmtgwAom3Puw8rx&index=15",
+  "isHighestVideoQuality":true
+}

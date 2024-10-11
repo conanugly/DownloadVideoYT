@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DownloadSolution.Data\DownloadSolution.Data.csproj" />
+    <ProjectReference Include="..\DownloadSolution.Utilities\DownloadSolution.Utilities.csproj" />
+    <ProjectReference Include="..\DownloadVideoSolution.ViewModels\DownloadSolution.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>
