@@ -1,0 +1,19 @@
+# Build Folders (bỏ qua các tệp kết quả của quá trình biên dịch)
+bin/
+obj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# VS Code folder
+.vscode/
+
+# Log files
+*.log
+
+# NuGet Packages
+*.nupkg
