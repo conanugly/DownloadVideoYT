@@ -34,8 +34,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Application\DownloadSolution.Application.csproj" />
     <ProjectReference Include="..\DownloadSolution.Data\DownloadSolution.Data.csproj" />
     <ProjectReference Include="..\DownloadSolution.Utilities\DownloadSolution.Utilities.csproj" />
+    <ProjectReference Include="..\DownloadVideoSolution.ViewModels\DownloadSolution.ViewModels.csproj" />
     <ProjectReference Include="..\DownloadVideoSolution.ViewModels\DownloadVideoSolution.ViewModels.csproj" />
   </ItemGroup>
 
