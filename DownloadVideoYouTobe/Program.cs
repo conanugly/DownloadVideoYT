@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.Identity.Client;
 using Application.System.Accounts;
 using DownloadVideoSolution.ViewModels.Common;
+using DownloadSolution.Utilities.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -97,6 +98,7 @@ builder.Services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(IRepository<>));
 
 
 // Add support to logging with SERILOG
