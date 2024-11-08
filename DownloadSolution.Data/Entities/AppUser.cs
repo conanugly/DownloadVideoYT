@@ -14,5 +14,7 @@ namespace DownloadSolution.Data.Entities
         public string LastName { get; set; }
 
         public DateTime Dob { get; set; }
+        
+        public Enums.Gender Gender { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using DownloadSolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DownloadSolution.Data.Migrations
 {
     [DbContext(typeof(SolutionDbContext))]
-    partial class SolutionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241014074308_UpdateUser")]
+    partial class UpdateUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,7 +163,7 @@ namespace DownloadSolution.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b5079f02-6cac-4093-b731-b243483bd48a",
+                            ConcurrencyStamp = "6ca35423-0bee-4dcf-9c7b-12e549a39c18",
                             Dob = new DateTime(1999, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "truongnn@ominext.com",
                             EmailConfirmed = true,
@@ -168,7 +171,7 @@ namespace DownloadSolution.Data.Migrations
                             Gender = 0,
                             LastName = "Truong",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEFHbS1qCRSLSkK7y22wXqf5tXEgmV7V+U4UPQSAUBbwseCV9KoVAjjzBQQC0eXUCTg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJLu3PVhKIQgp23oIzgjtxQBD5Osup7NkqRu4jeQk55nfs/2s/jFzq1+1urYyiKrKg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -243,55 +246,6 @@ namespace DownloadSolution.Data.Migrations
                             IsDefault = false,
                             Name = "English"
                         });
-                });
-
-            modelBuilder.Entity("DownloadSolution.Data.Entities.Menu", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWSEQUENTIALID()");
-
-                    b.Property<Guid?>("CreateBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Icon")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Menus", (string)null);
                 });
 
             modelBuilder.Entity("DownloadSolution.Data.Entities.Resolution", b =>

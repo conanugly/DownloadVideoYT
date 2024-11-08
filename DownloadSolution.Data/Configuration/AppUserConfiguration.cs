@@ -17,6 +17,8 @@ namespace DownloadSolution.Data.Configuration
             builder.Property(x => x.FirstName).IsRequired().HasMaxLength(50);
             builder.Property(x=> x.LastName).IsRequired().HasMaxLength(50);
             builder.Property(x => x.Dob).IsRequired();
+
+            builder.Property(x => x.Gender).HasConversion<int>();
         }
     }
 }

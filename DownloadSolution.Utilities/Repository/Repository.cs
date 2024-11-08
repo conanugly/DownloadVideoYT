@@ -1,5 +1,6 @@
 ﻿using DownloadSolution.Data.EF;
 using DownloadSolution.ViewModels.Utilities.Reponsitory;
+using DownloadVideoSolution.ViewModels.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DownloadSolution.Utilities.Repository
 {
-    internal abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         private readonly SolutionDbContext _context;
         public Repository(SolutionDbContext context)
@@ -72,15 +73,28 @@ namespace DownloadSolution.Utilities.Repository
             return await Get(findOptions).ToListAsync();
         }
 
-        public virtual async Task AddAsync(TEntity entity)
+        public virtual async Task<int> AddAsync(TEntity entity)
         {
             await _context.Set<TEntity>().AddAsync(entity);
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
+        }
+
+        public virtual async Task<IQueryable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, FindOptions? find = null)
+        {
+            try
+            {
+                var res = await GetDbAsync(find);
+                return res.Where(predicate);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
 
         public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
-             _context.Entry(entity).State = EntityState.Modified;
+            _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return entity;
         }
@@ -115,6 +129,21 @@ namespace DownloadSolution.Utilities.Repository
                 entity.AsNoTracking();
 
             return entity;
+        }
+
+        private async Task<DbSet<TEntity>> GetDbAsync(FindOptions? findOptions = null)
+        {
+            findOptions ??= new FindOptions();
+            var entity = _context.Set<TEntity>();
+
+            if (findOptions.IsAsNoTracking && findOptions.IsIgnoreAutoIncludes)
+                entity.IgnoreAutoIncludes().AsNoTracking();
+            else if (findOptions.IsIgnoreAutoIncludes)
+                entity.IgnoreAutoIncludes();
+            else if (findOptions.IsAsNoTracking)
+                entity.AsNoTracking();
+
+            return await Task.FromResult(entity);
         }
     }
 }

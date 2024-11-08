@@ -14,6 +14,9 @@ using Microsoft.Identity.Client;
 using Application.System.Accounts;
 using DownloadVideoSolution.ViewModels.Common;
 using DownloadSolution.Utilities.Repository;
+using DownloadSolution.Application;
+using Microsoft.AspNetCore.Authorization;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +36,7 @@ builder.Services.AddSwaggerGen(c =>
                       \r\n\r\nExample: 'Bearer 12345abcdef'",
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey,
-        //BearerFormat = "JWT",
+        BearerFormat = "JWT",
         Scheme = "Bearer"
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -53,15 +56,19 @@ builder.Services.AddSwaggerGen(c =>
             new string[]{}
         }
     });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+    //c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
+    //    $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
 });
 
 builder.Services.AddDbContext<SolutionDbContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
 ConfigAppSetting.Appsetings = builder.Configuration.GetSection("AppSettings").Get<Appsetings>();
-ConfigAppSetting.Token =  builder.Configuration.GetSection("Tokens").Get<Tokens>();
 ConfigAppSetting.ConnectionString = builder.Configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
+ConfigAppSetting.Authentications = builder.Configuration.GetSection("Authentication").Get<Authentication>();
 
 #region config jwt
 
@@ -69,7 +76,7 @@ builder.Services.AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<SolutionDbContext>()
     .AddDefaultTokenProviders();
 
-byte[] singingKeyBytes = System.Text.Encoding.UTF8.GetBytes(ConfigAppSetting.Token.Key);
+byte[] singingKeyBytes = System.Text.Encoding.UTF8.GetBytes(ConfigAppSetting.Authentications.Jwt.Key);
 
 builder.Services.AddAuthentication(opt =>
 {
@@ -83,23 +90,25 @@ builder.Services.AddAuthentication(opt =>
         options.TokenValidationParameters = new TokenValidationParameters()
         {
             ValidateIssuer = true,
-            ValidIssuer = ConfigAppSetting.Token.Issuer,
+            ValidIssuer = ConfigAppSetting.Authentications.Jwt.Issuer,
             ValidateAudience = true,
-            ValidAudience = ConfigAppSetting.Token.Issuer,
+            ValidAudience = ConfigAppSetting.Authentications.Jwt.Issuer,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ClockSkew = System.TimeSpan.Zero,
             IssuerSigningKey = new SymmetricSecurityKey(singingKeyBytes)
         };
     });
+builder.Services.AddAuthorization(opt =>
+{
+    opt.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+    .RequireAuthenticatedUser()
+    .Build();
+});
 #endregion
 
-builder.Services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
-builder.Services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
-builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
-builder.Services.AddTransient<IAccountService, AccountService>();
-builder.Services.AddScoped(typeof(IRepository<>), typeof(IRepository<>));
-
+//DI
+DependencyInjectionConfig.ConfigureServices(builder.Services);
 
 // Add support to logging with SERILOG
 builder.Host.UseSerilog((context, configuration) =>
@@ -107,15 +116,15 @@ builder.Host.UseSerilog((context, configuration) =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity API V1");
         //c.RoutePrefix = string.Empty;
     });
-}
+//}
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();

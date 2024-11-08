@@ -2,11 +2,6 @@
 using DownloadSolution.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DownloadSolution.Data.Configuration
 {
@@ -16,9 +11,9 @@ namespace DownloadSolution.Data.Configuration
         {
             builder.ToTable("VideoDowloads");
             builder.HasKey(x => x.VideoId);
-            //builder.HasKey(x => x.Id);
             
-            builder.Property(x => x.Status).HasDefaultValue(Status.Active);
+            builder.Property(x => x.Status).HasDefaultValue(Status.Active).HasConversion<int>();
+            //builder.Property(x => x.Status).HasDefaultValue(1);
 
         }
     }

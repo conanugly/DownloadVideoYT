@@ -4,11 +4,6 @@ using DownloadSolution.Data.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DownloadSolution.Data.EF
 {
@@ -30,6 +25,7 @@ namespace DownloadSolution.Data.EF
             modelBuilder.ApplyConfiguration(new ThumbnailConfiguration());
             modelBuilder.ApplyConfiguration(new ResolutionConfiguration());
             modelBuilder.ApplyConfiguration(new VideoDownloadConfiguration());
+            modelBuilder.ApplyConfiguration(new MenuConfiguration());
 
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
@@ -37,7 +33,7 @@ namespace DownloadSolution.Data.EF
 
             modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
-
+            
             modelBuilder.Seed();
         }
 
@@ -51,6 +47,7 @@ namespace DownloadSolution.Data.EF
         public DbSet<Thumbnail> Thumbnails { get; set; }
         public DbSet<Resolution> Resolutions { get; set; }
         public DbSet<VideoTranslation> VideoTranslations { get; set; }
+        public DbSet<Menu> Menus { get; set; }
 
     }
 }

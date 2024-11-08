@@ -27,12 +27,12 @@ namespace DownloadSolution.Data.Extensions
             var roleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC");
             var adminId = new Guid("69BD714F-9576-45BA-B5B7-F00649BE00DE");
 
-            modelBuilder.Entity<AppRole>().HasData( new AppRole()
+            modelBuilder.Entity<AppRole>().HasData(new AppRole()
             {
                 Id = roleId,
-                Name="admin",
-                NormalizedName="admin",
-                Description="Admin role"
+                Name = "admin",
+                NormalizedName = "admin",
+                Description = "Admin role"
             });
 
             var hasher = new PasswordHasher<AppUser>();
@@ -44,9 +44,10 @@ namespace DownloadSolution.Data.Extensions
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "Abcd1234$"),
                 SecurityStamp = string.Empty,
-                FirstName = "Truong", 
+                FirstName = "Truong",
                 LastName = "Truong",
-                Dob = new DateTime(1999,03,02)
+                Dob = new DateTime(1999, 03, 02),
+                Gender = Enums.Gender.Male
             });
 
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
@@ -54,6 +55,34 @@ namespace DownloadSolution.Data.Extensions
                 RoleId = roleId,
                 UserId = adminId
             });
+
+            /*modelBuilder.Entity<Menu>().HasData(
+                new Menu()
+                {
+                    
+                    Name = "Home",
+                    Description = "Home page",
+                    Icon = "home",
+                    CreateBy = adminId,
+                    CreatedDate = DateTime.Now
+                },
+                new Menu()
+                {
+                    Name = "Contact",
+                    Description = "Contact us",
+                    Icon = "contacts",
+                    CreateBy = adminId,
+                    CreatedDate = DateTime.Now
+                },
+                new Menu()
+                {
+                    Name = "About",
+                    Description = "Our information",
+                    Icon = "perm_contact_calendar",
+                    CreateBy = adminId,
+                    CreatedDate = DateTime.Now
+                }
+            );*/
         }
     }
 }

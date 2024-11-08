@@ -9,8 +9,8 @@ namespace DownloadVideoSolution.ViewModels.Common
     public static class ConfigAppSetting
     {
         public static Appsetings Appsetings { get; set; }
-        public static Tokens Token { get; set; }
         public static ConnectionStrings ConnectionString { get; set; }
+        public static Authentication Authentications { get; set; }
     }
 
     public class Appsetings
@@ -18,14 +18,27 @@ namespace DownloadVideoSolution.ViewModels.Common
         public string? OutputDirectory { get; set; }
     }
 
-    public class Tokens
+    public class Authentication
     {
-        public string? Key {  get; set; }
-        public string? Issuer { get; set; }
+        public AuthenticationJwt Jwt { get; set; }
+        public AuthenticationClients Clients { get; set; }
     }
 
     public class ConnectionStrings
     {
         public string? DefaultConnection { get; set; }
+    }
+
+    public class AuthenticationClients
+    {
+        public string Id { get; set; }
+        public string Secret { get; set; }
+    }
+
+    public class AuthenticationJwt
+    {
+        public string Key { get; set; }
+        public string Issuer { get; set; }
+        public int? TimeoutInMinute { get; set; }
     }
 }

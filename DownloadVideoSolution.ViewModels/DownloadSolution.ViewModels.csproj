@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DownloadSolution.Data\DownloadSolution.Data.csproj" />
+  </ItemGroup>
+
 </Project>

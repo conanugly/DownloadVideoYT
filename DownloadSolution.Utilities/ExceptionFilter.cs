@@ -19,10 +19,10 @@ namespace DownloadSolution.Utilities
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var actionArguments = context.ActionArguments.Values.ToList();
-            var ctlstr = context.Controller.ToString();
-            _logger = ApplicationConfiguration.GetLogger();
-            _logger.Debug("LLLLLLLLLLLLLLLLLLLLLLLLKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+            //var actionArguments = context.ActionArguments.Values.ToList();
+            //var ctlstr = context.Controller.ToString();
+            //_logger = ApplicationConfiguration.GetLogger();
+            //_logger.Debug("LLLLLLLLLLLLLLLLLLLLLLLLKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
             base.OnActionExecuting(context);
         }
 

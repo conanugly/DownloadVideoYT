@@ -1,4 +1,5 @@
 ﻿using DownloadSolution.ViewModels.Utilities.Reponsitory;
+using DownloadVideoSolution.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,8 @@ namespace DownloadSolution.Utilities.Repository
         TEntity FindOne(Expression<Func<TEntity, bool>> predicate, FindOptions? find = null);
         IQueryable<TEntity> Find(Expression<Func<TEntity,bool>> predicate, FindOptions? find = null);
         void Add(TEntity entity);
-        Task AddAsync(TEntity entity);
+        Task<int> AddAsync(TEntity entity);
+        Task<IQueryable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, FindOptions? find = null);
         void AddMany(IEnumerable<TEntity> entities);
         void Update(TEntity entity);
         Task<TEntity> UpdateAsync(TEntity entity);
